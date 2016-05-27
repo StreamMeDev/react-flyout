@@ -1,0 +1,33 @@
+{
+  "name": "@streammedev/flyout",
+  "version": "0.0.1",
+  "description": "An html flyout component",
+  "main": "index.js",
+  "keywords": [
+    "flyout",
+    "react"
+  ],
+  "author": "StreamMe",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:StreamMeDev/react-flyout.git"
+  },
+  "scripts": {
+    "test": "npm run babel && happiness && mocha --grep 'BROWSER: ' --invert",
+    "test-browser": "mochify",
+    "babel": "babel src -d lib"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "happiness": "^6.0.7",
+    "mocha": "^2.5.3",
+    "mochify": "^2.18.0"
+  },
+  "dependencies": {
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  }
+}
