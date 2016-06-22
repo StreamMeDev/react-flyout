@@ -130,6 +130,5 @@ Flyout.propTypes = {
 Flyout.defaultProps = {
 	closeOnBlur: true,
 	renderWhenClosed: true,
-	open: false,
 	element: 'div'
 };
