@@ -16,7 +16,8 @@
   "scripts": {
     "test": "npm run babel && happiness && mocha --grep 'BROWSER: ' --invert",
     "test-browser": "mochify",
-    "babel": "babel src -d lib"
+    "babel": "babel src -d lib",
+	"prepublish": "npm run babel"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
