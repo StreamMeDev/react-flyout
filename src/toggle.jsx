@@ -7,7 +7,10 @@ export class FlyoutToggle extends React.Component {
 	}
 
 	render () {
-		return React.DOM[this.props.element](Object.assign({}, this.props, {
+		// don't pass unknown props to children: https://fb.me/react-unknown-prop
+		const { element, toggle, ...rest } = this.props; // eslint-disable-line
+
+		return React.DOM[this.props.element](Object.assign({}, rest, {
 			className: 'flyout-toggle ' + this.props.className,
 			onClick: this.onClick
 		}));
