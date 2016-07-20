@@ -14,8 +14,31 @@ $ npm install --save @streammedev/flyout
 
 ```javascript
 var Flyout = require('@streammedev/flyout');
+var FlyoutMenu = Flyout.FlyoutMenu;
+var FlyoutToggle = Flyout.FlyoutToggle;
 
-// ...More Docs To Come...
+module.exports = React.createClass({
+	propType: {
+		originServers: React.PropTypes.array.isRequired,
+		selectedOrigin: React.PropTypes.object.isRequired,
+		changeOrigin: React.PropTypes.func.isRequired
+	},
+	render: function () {
+		return (
+			<FlyoutMenu className="origins">
+				<FlyoutToggle className="origins-toggle">{this.props.selectedOrigin.broadcastUrl}</FlyoutToggle>
+				{this.props.originServers.map(function (o) {
+					var id = o.region + o.broadcastUrl;
+					return (
+						<div className="origin" key={id} itemKey={id} onClick={this.props.changeOrigin.bind(this, o)}>
+							{o.region}
+						</div>
+					);
+				}.bind(this))}
+			</FlyoutMenu>
+		);
+	}
+});
 ```
 
 ## Development
