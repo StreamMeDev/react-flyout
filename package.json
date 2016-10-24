@@ -26,10 +26,12 @@
     "babel-preset-react": "^6.5.0",
     "happiness": "^6.0.7",
     "mocha": "^2.5.3",
-    "mochify": "^2.18.0"
-  },
-  "dependencies": {
+    "mochify": "^2.18.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
+  },
+  "peerDependencies": {
+    "react": ">0.14.0",
+    "react-dom": ">0.14.0"
   }
 }
