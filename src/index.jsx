@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import reactCompat from '@streammedev/react-compat';
 import {FlyoutToggle} from './toggle';
 
 export class Flyout extends React.Component {
@@ -17,7 +17,7 @@ export class Flyout extends React.Component {
 		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
 		// @TODO fix happiness then remove
 		return (
-			<div className={'flyout-container ' + (this.state.open ? 'open ' : '') + (this.props.className || '')}>
+			<div className={'flyout-container ' + (this.state.open ? 'open ' : '') + (this.props.className || '')} ref={reactCompat.refSet(this, 'container')}>
 				{React.Children.map(this.props.children, function (child) {
 					if (!child || child.type !== FlyoutToggle) {
 						return false;
@@ -78,7 +78,7 @@ export class Flyout extends React.Component {
 	}
 
 	closeOnExternalClick (e) {
-		var container = ReactDom.findDOMNode(this);
+		var container = reactCompat.refGet(this, 'container');
 		var el = e.target;
 
 		// is the click inside the container?
@@ -118,13 +118,13 @@ export class Flyout extends React.Component {
 }
 
 Flyout.propTypes = {
-	closeOnBlur: React.PropTypes.bool,
-	renderWhenClosed: React.PropTypes.bool,
-	open: React.PropTypes.bool,
-	element: React.PropTypes.string,
-	onClose: React.PropTypes.func,
-	className: React.PropTypes.string,
-	children: React.PropTypes.node
+	closeOnBlur: reactCompat.PropTypes.bool,
+	renderWhenClosed: reactCompat.PropTypes.bool,
+	open: reactCompat.PropTypes.bool,
+	element: reactCompat.PropTypes.string,
+	onClose: reactCompat.PropTypes.func,
+	className: reactCompat.PropTypes.string,
+	children: reactCompat.PropTypes.node
 };
 
 Flyout.defaultProps = {

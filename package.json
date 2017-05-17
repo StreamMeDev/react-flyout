@@ -24,14 +24,18 @@
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
+    "create-react-class": "^15.5.3",
     "happiness": "^6.0.7",
     "mocha": "^2.5.3",
     "mochify": "^2.18.0",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   },
   "peerDependencies": {
-    "react": ">0.14.0",
-    "react-dom": ">0.14.0"
+    "react": ">0.12.0"
+  },
+  "dependencies": {
+    "@streammedev/react-compat": "0.0.0"
   }
 }
