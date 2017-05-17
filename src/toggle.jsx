@@ -1,4 +1,5 @@
 import React from 'react';
+import reactCompat from '@streammedev/react-compat';
 
 export class FlyoutToggle extends React.Component {
 	constructor (props) {
@@ -32,11 +33,11 @@ export class FlyoutToggle extends React.Component {
 }
 
 FlyoutToggle.propTypes = {
-	element: React.PropTypes.string,
-	toggle: React.PropTypes.func,
-	shouldOpen: React.PropTypes.bool,
-	className: React.PropTypes.string,
-	onClick: React.PropTypes.func
+	element: reactCompat.PropTypes.string,
+	toggle: reactCompat.PropTypes.func,
+	shouldOpen: reactCompat.PropTypes.bool,
+	className: reactCompat.PropTypes.string,
+	onClick: reactCompat.PropTypes.func
 };
 
 FlyoutToggle.defaultProps = {

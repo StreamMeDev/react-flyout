@@ -1,4 +1,5 @@
 import React from 'react';
+import reactCompat from '@streammedev/react-compat';
 import {Flyout} from './index';
 import {FlyoutToggle} from './toggle';
 
@@ -33,10 +34,10 @@ export class FlyoutMenu extends React.Component {
 }
 
 FlyoutMenu.propTypes = {
-	closeOnBlur: React.PropTypes.bool,
-	renderWhenClosed: React.PropTypes.bool,
-	open: React.PropTypes.bool,
-	onClose: React.PropTypes.func,
-	className: React.PropTypes.string,
-	children: React.PropTypes.node
+	closeOnBlur: reactCompat.PropTypes.bool,
+	renderWhenClosed: reactCompat.PropTypes.bool,
+	open: reactCompat.PropTypes.bool,
+	onClose: reactCompat.PropTypes.func,
+	className: reactCompat.PropTypes.string,
+	children: reactCompat.PropTypes.node
 };
