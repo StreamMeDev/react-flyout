@@ -1,43 +1,43 @@
-import React from 'react';
-import reactCompat from '@streammedev/react-compat';
-import {Flyout} from './index';
-import {FlyoutToggle} from './toggle';
+'use strict'
+const React = require('react')
+const propTypes = require('prop-types')
+const Flyout = require('./index')
+const FlyoutToggle = require('./toggle')
 
-export class FlyoutMenu extends React.Component {
-	render () {
-		/* eslint-disable */
-		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
-		// @TODO fix happiness then remove
-		return (
-			<Flyout
-				element="ol"
-				className={this.props.className}
-				closeOnBlur={this.props.closeOnBlur}
-				renderWhenClosed={this.props.renderWhenClosed}
-				open={this.props.open}
-				onClose={this.props.onClose}
-			>
-				{React.Children.map(this.props.children, function (child) {
-					if (!child) {
-						return false;
-					}
-					// Just return toggle
-					if (child.type === FlyoutToggle) {
-						return child;
-					}
-					return <li className="menu-item" key={child.props.itemKey}>{child}</li>;
-				})}
-			</Flyout>
-		);
-		/* eslint-enable */
-	}
+module.exports = class FlyoutMenu extends React.Component {
+  static propTypes = {
+    renderWhenClosed: propTypes.bool,
+    open: propTypes.bool,
+    className: propTypes.string,
+    itemClassName: propTypes.string,
+    children: propTypes.node,
+    element: propTypes.string
+  }
+
+  static defaultProps = {
+    className: 'flyout-menu',
+    element: 'ol'
+  }
+
+  render () {
+    return (
+      <Flyout
+        element={this.props.element}
+        className={this.props.className}
+        renderWhenClosed={this.props.renderWhenClosed}
+        open={this.props.open}
+      >
+        {React.Children.map(this.props.children, (child) => {
+          if (!child) {
+            return false
+          }
+          // Just return toggle
+          if (child.type === FlyoutToggle) {
+            return child
+          }
+          return <li className={this.props.itemClassName} key={child.props.itemKey}>{child}</li>
+        })}
+      </Flyout>
+    )
+  }
 }
-
-FlyoutMenu.propTypes = {
-	closeOnBlur: reactCompat.PropTypes.bool,
-	renderWhenClosed: reactCompat.PropTypes.bool,
-	open: reactCompat.PropTypes.bool,
-	onClose: reactCompat.PropTypes.func,
-	className: reactCompat.PropTypes.string,
-	children: reactCompat.PropTypes.node
-};

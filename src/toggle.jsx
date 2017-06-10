@@ -1,45 +1,37 @@
-import React from 'react';
-import reactCompat from '@streammedev/react-compat';
+'use strict'
+const React = require('react')
+const propTypes = require('prop-types')
 
-export class FlyoutToggle extends React.Component {
-	constructor (props) {
-		super(props);
-		this.onClick = this.onClick.bind(this);
-	}
+module.exports = class FlyoutToggle extends React.Component {
+  static propTypes = {
+    element: propTypes.string,
+    className: propTypes.string,
+    onClick: propTypes.func
+  }
 
-	render () {
-		// don't pass unknown props to children: https://fb.me/react-unknown-prop
-		const { element, toggle, ...rest } = this.props; // eslint-disable-line
+  static defaultProps = {
+    className: 'flyout-toggle',
+    element: 'button'
+  }
 
-		return React.DOM[this.props.element](Object.assign({}, rest, {
-			className: 'flyout-toggle ' + this.props.className,
-			onClick: this.onClick
-		}));
-	}
+  constructor (props) {
+    super(props)
+    this.onClick = this.onClick.bind(this)
+  }
 
-	onClick (e) {
-		// Allow overriding of full on click behavior
-		if (typeof this.props.onClick === 'function') {
-			this.props.onClick(e);
-		} else {
-			e.preventDefault();
-		}
+  render () {
+    // don't pass unknown props to children: https://fb.me/react-unknown-prop
+    const {element, ...rest} = this.props
 
-		// Normal behavior is to toggle open the flyout
-		if (typeof this.props.toggle === 'function') {
-			this.props.toggle();
-		}
-	}
+    return React.DOM[this.props.element](Object.assign(rest, {
+      onClick: this.onClick
+    }))
+  }
+
+  onClick (e) {
+    if (typeof this.props.onClick === 'function') {
+      e.preventDefault()
+      this.props.onClick(e)
+    }
+  }
 }
-
-FlyoutToggle.propTypes = {
-	element: reactCompat.PropTypes.string,
-	toggle: reactCompat.PropTypes.func,
-	shouldOpen: reactCompat.PropTypes.bool,
-	className: reactCompat.PropTypes.string,
-	onClick: reactCompat.PropTypes.func
-};
-
-FlyoutToggle.defaultProps = {
-	element: 'button'
-};
