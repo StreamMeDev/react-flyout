@@ -3,6 +3,7 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const propTypes = require('prop-types')
 const Flyout = require('./flyout')
+const FlyoutMenu = require('./menu')
 
 module.exports = class FlyoutContainer extends React.Component {
   static displayName = 'FlyoutContainer'
@@ -15,7 +16,8 @@ module.exports = class FlyoutContainer extends React.Component {
     renderWhenClosed: propTypes.bool,
     className: propTypes.string,
     children: propTypes.node,
-    element: propTypes.string
+    element: propTypes.string,
+    menu: propTypes.bool
   }
 
   static defaultProps = {
@@ -37,8 +39,9 @@ module.exports = class FlyoutContainer extends React.Component {
   }
 
   render () {
+    var Component = this.props.menu ? FlyoutMenu : Flyout
     return (
-      <Flyout
+      <Component
         ref={this.flyoutRef}
         toggle={this.toggle}
         element={this.props.element}
@@ -47,7 +50,7 @@ module.exports = class FlyoutContainer extends React.Component {
         open={this.state.open}
       >
         {this.props.children}
-      </Flyout>
+      </Component>
     )
   }
 
