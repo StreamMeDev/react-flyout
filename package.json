@@ -1,6 +1,6 @@
 {
   "name": "@streammedev/flyout",
-  "version": "1.0.0-RC-1",
+  "version": "1.0.0-RC-2",
   "description": "An html flyout component",
   "main": "index.js",
   "keywords": [
