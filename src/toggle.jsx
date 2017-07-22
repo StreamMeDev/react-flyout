@@ -1,6 +1,7 @@
 'use strict'
 const React = require('react')
 const propTypes = require('prop-types')
+const reactDom = require('react-dom-factories')
 
 module.exports = class FlyoutToggle extends React.Component {
   static propTypes = {
@@ -23,7 +24,7 @@ module.exports = class FlyoutToggle extends React.Component {
     // don't pass unknown props to children: https://fb.me/react-unknown-prop
     const {element, ...rest} = this.props
 
-    return React.DOM[this.props.element](Object.assign(rest, {
+    return reactDom[this.props.element](Object.assign(rest, {
       onClick: this.onClick
     }))
   }

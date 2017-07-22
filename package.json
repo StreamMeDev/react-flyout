@@ -20,6 +20,9 @@
     "prepublish": "npm run build",
     "postpublish": "git push && git push --tags"
   },
+  "standard": {
+    "parser": "babel-eslint"
+  },
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-eslint": "^7.2.3",
@@ -38,7 +41,8 @@
     "react": ">15.0.0",
     "react-dom": ">15.0.0"
   },
-  "standard": {
-    "parser": "babel-eslint"
+  "dependencies": {
+    "prop-types": "^15.5.10",
+    "react-dom-factories": "^1.0.0"
   }
 }

@@ -1,17 +1,18 @@
 'use strict'
 const React = require('react')
 const propTypes = require('prop-types')
-const Flyout = require('./index')
+const Flyout = require('./flyout')
 const FlyoutToggle = require('./toggle')
 
 module.exports = class FlyoutMenu extends React.Component {
   static propTypes = {
-    renderWhenClosed: propTypes.bool,
     open: propTypes.bool,
+    renderWhenClosed: propTypes.bool,
     className: propTypes.string,
-    itemClassName: propTypes.string,
     children: propTypes.node,
-    element: propTypes.string
+    element: propTypes.string,
+    toggle: propTypes.func,
+    itemClassName: propTypes.string
   }
 
   static defaultProps = {
@@ -26,6 +27,7 @@ module.exports = class FlyoutMenu extends React.Component {
         className={this.props.className}
         renderWhenClosed={this.props.renderWhenClosed}
         open={this.props.open}
+        toggle={this.props.toggle}
       >
         {React.Children.map(this.props.children, (child) => {
           if (!child) {

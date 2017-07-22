@@ -1,6 +1,7 @@
 'use strict'
 const React = require('react')
 const propTypes = require('prop-types')
+const reactDom = require('react-dom-factories')
 const FlyoutToggle = require('./toggle')
 
 module.exports = class Flyout extends React.Component {
@@ -35,7 +36,7 @@ module.exports = class Flyout extends React.Component {
           )
         })}
         {(open || props.renderWhenClosed) && (
-          React.DOM[props.element]({
+          reactDom[props.element]({
             className: 'flyout-content',
             children: React.Children.map(children, (child) => {
               return (!child || child.type === FlyoutToggle) ? null : child
