@@ -1,3 +1,3 @@
-module.exports = require('./lib').Flyout;
-module.exports.FlyoutToggle = require('./lib/toggle').FlyoutToggle;
-module.exports.FlyoutMenu = require('./lib/menu').FlyoutMenu;
+module.exports = require('./lib');
+module.exports.FlyoutToggle = require('./lib/toggle');
+module.exports.FlyoutMenu = require('./lib/menu');

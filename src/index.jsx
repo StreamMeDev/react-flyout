@@ -1,8 +1,24 @@
-import React from 'react';
-import reactCompat from '@streammedev/react-compat';
-import {FlyoutToggle} from './toggle';
+const React = require('react');
+const PropTypes = require('prop-types');
+const {FlyoutToggle} = require('./toggle');
 
-export class Flyout extends React.Component {
+module.exports = class Flyout extends React.Component {
+	static propTypes = {
+		closeOnBlur: PropTypes.bool,
+		renderWhenClosed: PropTypes.bool,
+		open: PropTypes.bool,
+		element: PropTypes.string,
+		onClose: PropTypes.func,
+		className: PropTypes.string,
+		children: PropTypes.node
+	};
+
+	static defaultProps = {
+		closeOnBlur: true,
+		renderWhenClosed: true,
+		element: 'div'
+	};
+
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -11,13 +27,15 @@ export class Flyout extends React.Component {
 		this.toggle = this.toggle.bind(this);
 		this.closeOnExternalClick = this.closeOnExternalClick.bind(this);
 		this.closeOnEscape = this.closeOnEscape.bind(this);
+		this.getContainerRef = this.getContainerRef.bind(this);
 	}
+
 	render () {
 		/* eslint-disable */
 		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
 		// @TODO fix happiness then remove
 		return (
-			<div className={'flyout-container ' + (this.state.open ? 'open ' : '') + (this.props.className || '')} ref={reactCompat.refSet(this, 'container')}>
+			<div className={'flyout-container ' + (this.state.open ? 'open ' : '') + (this.props.className || '')} ref={this.getContainerRef}>
 				{React.Children.map(this.props.children, function (child) {
 					if (!child || child.type !== FlyoutToggle) {
 						return false;
@@ -28,15 +46,18 @@ export class Flyout extends React.Component {
 					});
 				}, this)}
 				{this.state.open || this.props.renderWhenClosed ? (
-					React.DOM[this.props.element]({
-						className: 'flyout',
-						children: React.Children.map(this.props.children, function (child) {
-							if (!child || child.type === FlyoutToggle) {
-								return false;
-							}
-							return child;
-						}, this)
-					})
+					React.createElement(
+						this.props.element,
+						{
+							className: 'flyout',
+							children: React.Children.map(this.props.children, function (child) {
+								if (!child || child.type === FlyoutToggle) {
+									return false;
+								}
+								return child;
+							}, this)
+						}
+					)
 				) : false}
 			</div>
 		);
@@ -78,7 +99,7 @@ export class Flyout extends React.Component {
 	}
 
 	closeOnExternalClick (e) {
-		var container = reactCompat.refGet(this, 'container');
+		var container = this.containerRef;
 		var el = e.target;
 
 		// is the click inside the container?
@@ -115,20 +136,8 @@ export class Flyout extends React.Component {
 			open: !this.state.open
 		});
 	}
+
+	getContainerRef (ref) {
+		this.containerRef = ref;
+	}
 }
-
-Flyout.propTypes = {
-	closeOnBlur: reactCompat.PropTypes.bool,
-	renderWhenClosed: reactCompat.PropTypes.bool,
-	open: reactCompat.PropTypes.bool,
-	element: reactCompat.PropTypes.string,
-	onClose: reactCompat.PropTypes.func,
-	className: reactCompat.PropTypes.string,
-	children: reactCompat.PropTypes.node
-};
-
-Flyout.defaultProps = {
-	closeOnBlur: true,
-	renderWhenClosed: true,
-	element: 'div'
-};
