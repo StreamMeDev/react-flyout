@@ -1,9 +1,18 @@
-import React from 'react';
-import reactCompat from '@streammedev/react-compat';
-import {Flyout} from './index';
-import {FlyoutToggle} from './toggle';
+const React = require('react');
+const PropTypes = require('prop-types');
+const {Flyout} = require('./index');
+const {FlyoutToggle} = require('./toggle');
 
-export class FlyoutMenu extends React.Component {
+module.exports = class FlyoutMenu extends React.Component {
+	static propTypes = {
+		closeOnBlur: PropTypes.bool,
+		renderWhenClosed: PropTypes.bool,
+		open: PropTypes.bool,
+		onClose: PropTypes.func,
+		className: PropTypes.string,
+		children: PropTypes.node
+	};
+	
 	render () {
 		/* eslint-disable */
 		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
@@ -32,12 +41,3 @@ export class FlyoutMenu extends React.Component {
 		/* eslint-enable */
 	}
 }
-
-FlyoutMenu.propTypes = {
-	closeOnBlur: reactCompat.PropTypes.bool,
-	renderWhenClosed: reactCompat.PropTypes.bool,
-	open: reactCompat.PropTypes.bool,
-	onClose: reactCompat.PropTypes.func,
-	className: reactCompat.PropTypes.string,
-	children: reactCompat.PropTypes.node
-};

@@ -1,7 +1,19 @@
-import React from 'react';
-import reactCompat from '@streammedev/react-compat';
+const React = require('react');
+const PropTypes = require('prop-types');
 
-export class FlyoutToggle extends React.Component {
+module.exports = class FlyoutToggle extends React.Component {
+	static propTypes = {
+		element: PropTypes.string,
+		toggle: PropTypes.func,
+		shouldOpen: PropTypes.bool,
+		className: PropTypes.string,
+		onClick: PropTypes.func
+	};
+
+	static defaultProps = {
+		element: 'button'
+	};
+
 	constructor (props) {
 		super(props);
 		this.onClick = this.onClick.bind(this);
@@ -11,10 +23,13 @@ export class FlyoutToggle extends React.Component {
 		// don't pass unknown props to children: https://fb.me/react-unknown-prop
 		const { element, toggle, ...rest } = this.props; // eslint-disable-line
 
-		return React.DOM[this.props.element](Object.assign({}, rest, {
-			className: 'flyout-toggle ' + this.props.className,
-			onClick: this.onClick
-		}));
+		return React.createElement(
+			element,
+			Object.assign({}, rest, {
+				className: 'flyout-toggle ' + this.props.className,
+				onClick: this.onClick
+			})
+		);
 	}
 
 	onClick (e) {
@@ -31,15 +46,3 @@ export class FlyoutToggle extends React.Component {
 		}
 	}
 }
-
-FlyoutToggle.propTypes = {
-	element: reactCompat.PropTypes.string,
-	toggle: reactCompat.PropTypes.func,
-	shouldOpen: reactCompat.PropTypes.bool,
-	className: reactCompat.PropTypes.string,
-	onClick: reactCompat.PropTypes.func
-};
-
-FlyoutToggle.defaultProps = {
-	element: 'button'
-};
