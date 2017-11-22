@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const {Flyout} = require('./index');
-const {FlyoutToggle} = require('./toggle');
+const Flyout = require('./index');
+const FlyoutToggle = require('./toggle');
 
 module.exports = class FlyoutMenu extends React.Component {
 	static propTypes = {
@@ -12,7 +12,7 @@ module.exports = class FlyoutMenu extends React.Component {
 		className: PropTypes.string,
 		children: PropTypes.node
 	};
-	
+
 	render () {
 		/* eslint-disable */
 		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
@@ -40,4 +40,4 @@ module.exports = class FlyoutMenu extends React.Component {
 		);
 		/* eslint-enable */
 	}
-}
+};

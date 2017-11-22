@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const {FlyoutToggle} = require('./toggle');
+const FlyoutToggle = require('./toggle');
 
 module.exports = class Flyout extends React.Component {
 	static propTypes = {
@@ -140,4 +140,4 @@ module.exports = class Flyout extends React.Component {
 	getContainerRef (ref) {
 		this.containerRef = ref;
 	}
-}
+};
