@@ -13,14 +13,19 @@
     "type": "git",
     "url": "git@github.com:StreamMeDev/react-flyout.git"
   },
+  "happiness": {
+    "parser": "babel-eslint"
+  },
   "scripts": {
     "test": "npm run babel && happiness && mocha --grep 'BROWSER: ' --invert",
     "test-browser": "mochify",
     "babel": "babel src -d lib",
+    "dev": "babel --watch src -d lib",
     "prepublish": "npm run babel"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
@@ -30,8 +35,8 @@
     "mochify": "^2.18.0"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": ">15.0.0",
+    "react-dom": ">15.0.0",
     "prop-types": "^15.5.10"
   }
 }

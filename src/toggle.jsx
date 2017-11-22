@@ -45,4 +45,4 @@ module.exports = class FlyoutToggle extends React.Component {
 			this.props.toggle();
 		}
 	}
-}
+};
