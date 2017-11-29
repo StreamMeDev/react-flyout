@@ -49,7 +49,7 @@ module.exports = class Flyout extends React.Component {
 					React.createElement(
 						this.props.element,
 						{
-							className: 'flyout',
+							className: 'flyout-content',
 							children: React.Children.map(this.props.children, function (child) {
 								if (!child || child.type === FlyoutToggle) {
 									return false;
