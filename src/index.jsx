@@ -1,143 +1,132 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const FlyoutToggle = require('./toggle');
+'use strict'
+const React = require('react')
+const ReactDOM = require('react-dom')
+const propTypes = require('prop-types')
+const Flyout = require('./flyout')
+const FlyoutMenu = require('./menu')
 
-module.exports = class Flyout extends React.Component {
-	static propTypes = {
-		closeOnBlur: PropTypes.bool,
-		renderWhenClosed: PropTypes.bool,
-		open: PropTypes.bool,
-		element: PropTypes.string,
-		onClose: PropTypes.func,
-		className: PropTypes.string,
-		children: PropTypes.node
-	};
+module.exports = class FlyoutContainer extends React.Component {
+  static displayName = 'FlyoutContainer'
 
-	static defaultProps = {
-		closeOnBlur: true,
-		renderWhenClosed: true,
-		element: 'div'
-	};
+  static propTypes = {
+    closeOnWindowBlur: propTypes.bool,
+    closeOnExternalClick: propTypes.bool,
+    closeOnEscape: propTypes.bool,
+    initialOpen: propTypes.bool,
+    renderWhenClosed: propTypes.bool,
+    className: propTypes.string,
+    children: propTypes.node,
+    element: propTypes.string,
+    menu: propTypes.bool
+  }
 
-	constructor (props) {
-		super(props);
-		this.state = {
-			open: this.props.open || false
-		};
-		this.toggle = this.toggle.bind(this);
-		this.closeOnExternalClick = this.closeOnExternalClick.bind(this);
-		this.closeOnEscape = this.closeOnEscape.bind(this);
-		this.getContainerRef = this.getContainerRef.bind(this);
-	}
+  static defaultProps = {
+    closeOnWindowBlur: false,
+    closeOnExternalClick: false,
+    closeOnEscape: true
+  }
 
-	render () {
-		/* eslint-disable */
-		// disabled because happiness 6.x doesnt work correctly on tab indented jsx
-		// @TODO fix happiness then remove
-		return (
-			<div className={'flyout-container ' + (this.state.open ? 'open ' : '') + (this.props.className || '')} ref={this.getContainerRef}>
-				{React.Children.map(this.props.children, function (child) {
-					if (!child || child.type !== FlyoutToggle) {
-						return false;
-					}
-					// Add toggle method
-					return React.cloneElement(child, {
-						toggle: this.toggle
-					});
-				}, this)}
-				{this.state.open || this.props.renderWhenClosed ? (
-					React.createElement(
-						this.props.element,
-						{
-							className: 'flyout-content',
-							children: React.Children.map(this.props.children, function (child) {
-								if (!child || child.type === FlyoutToggle) {
-									return false;
-								}
-								return child;
-							}, this)
-						}
-					)
-				) : false}
-			</div>
-		);
-		/* eslint-enable */
-	}
+  constructor (props) {
+    super(props)
+    this.state = {
+      open: this.props.initialOpen || false
+    }
+    this.flyoutRef = this.flyoutRef.bind(this)
+    this.toggle = this.toggle.bind(this)
+    this.close = this.close.bind(this)
+    this.closeOnExternalClick = this.closeOnExternalClick.bind(this)
+    this.closeOnEscape = this.closeOnEscape.bind(this)
+  }
 
-	componentWillReceiveProps (newProps) {
-		this.setState({
-			open: typeof newProps.open !== 'undefined' ? newProps.open : this.state.open
-		});
-	}
+  render () {
+    var Component = this.props.menu ? FlyoutMenu : Flyout
+    return (
+      <Component
+        ref={this.flyoutRef}
+        toggle={this.toggle}
+        element={this.props.element}
+        className={this.props.className}
+        renderWhenClosed={this.props.renderWhenClosed}
+        open={this.state.open}
+      >
+        {this.props.children}
+      </Component>
+    )
+  }
 
-	componentWillUpdate (props, state) {
-		if (this.state.open && !state.open) {
-			// Closing
-			this.unbindBlurEvents();
-		} else if (!this.state.open && state.open) {
-			// Opening
-			this.bindBlurEvents();
-		}
-	}
+  componentDidMount () {
+    if (this.state.open) {
+      this.bindBlurEvents()
+    }
+  }
 
-	componentWillUnmount () {
-		this.unbindBlurEvents();
-	}
+  componentWillUnmount () {
+    this.unbindBlurEvents()
+  }
 
-	bindBlurEvents () {
-		document.body.addEventListener('click', this.closeOnExternalClick);
-		window.addEventListener('keyup', this.closeOnEscape);
-		if (this.props.closeOnBlur) {
-			window.addEventListener('blur', this.closeOnExternalClick);
-		}
-	}
+  componentWillUpdate (props, state) {
+    if (this.state.open && !state.open) {
+      this.unbindBlurEvents()
+    } else if (!this.state.open && state.open) {
+      this.bindBlurEvents()
+    }
+  }
 
-	unbindBlurEvents () {
-		document.body.removeEventListener('click', this.closeOnExternalClick);
-		window.removeEventListener('keyup', this.closeOnEscape);
-		window.removeEventListener('blur', this.closeOnExternalClick);
-	}
+  flyoutRef (ref) {
+    this.flyout = ref
+  }
 
-	closeOnExternalClick (e) {
-		var container = this.containerRef;
-		var el = e.target;
+  toggle () {
+    this.setState({
+      open: !this.state.open
+    })
+  }
 
-		// is the click inside the container?
-		while (el && el !== document.body) {
-			if (el === container) {
-				return;
-			}
-			el = el.parentNode;
-		}
+  bindBlurEvents () {
+    if (this.props.closeOnExternalClick) {
+      document.body.addEventListener('click', this.closeOnExternalClick)
+    }
+    if (this.props.closeOnEscape) {
+      window.addEventListener('keyup', this.closeOnEscape)
+    }
+    if (this.props.closeOnWindowBlur) {
+      window.addEventListener('blur', this.close)
+    }
+  }
 
-		// It is an external click, so close menu
-		this.setState({
-			open: false
-		});
-		if (typeof this.props.onClose === 'function') {
-			this.props.onClose();
-		}
-	}
+  unbindBlurEvents () {
+    document.body.removeEventListener('click', this.closeOnExternalClick)
+    window.removeEventListener('keyup', this.closeOnEscape)
+    window.removeEventListener('blur', this.close)
+  }
 
-	closeOnEscape (e) {
-		if (e.which === 27) {
-			e.preventDefault();
-			this.setState({
-				open: false
-			});
-			if (typeof this.props.onClose === 'function') {
-				this.props.onClose();
-			}
-		}
-	}
+  closeOnExternalClick (e) {
+    var container = ReactDOM.findDOMNode(this.flyout)
+    var el = e.target
 
-	toggle () {
-		this.setState({
-			open: !this.state.open
-		});
-	}
+    // is the click inside the container?
+    while (el && el !== document.body) {
+      if (el === container) {
+        return
+      }
+      el = el.parentNode
+    }
 
-	getContainerRef (ref) {
-		this.containerRef = ref;
-	}
-};
+    // It is an external click, so close flyout
+    this.close()
+  }
+
+  closeOnEscape (e) {
+    if (e.which !== 27) {
+      return
+    }
+    this.close()
+  }
+
+  close (e) {
+    this.unbindBlurEvents()
+    this.setState({
+      open: false
+    })
+  }
+}

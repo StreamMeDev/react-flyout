@@ -1,6 +1,8 @@
 # React Flyout Component
 
-[![js-happiness-style](https://img.shields.io/badge/code%20style-happiness-brightgreen.svg)](https://github.com/JedWatson/happiness)
+[![NPM Version](https://img.shields.io/npm/v/@streammedev/flyout.svg)](https://npmjs.org/package/@streammedev/flyout)
+[![NPM Downloads](https://img.shields.io/npm/dm/@streammedev/flyout.svg)](https://npmjs.org/package/@streammedev/flyout)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 An flyout component for React.
 
@@ -13,33 +15,54 @@ $ npm install --save @streammedev/flyout
 ## Usage
 
 ```javascript
-var Flyout = require('@streammedev/flyout');
-var FlyoutMenu = Flyout.FlyoutMenu;
-var FlyoutToggle = Flyout.FlyoutToggle;
+var Flyout = require('@streammedev/flyout')
+var FlyoutToggle = Flyout.FlyoutToggle
 
 module.exports = React.createClass({
-	propType: {
-		originServers: React.PropTypes.array.isRequired,
-		selectedOrigin: React.PropTypes.object.isRequired,
-		changeOrigin: React.PropTypes.func.isRequired
-	},
-	render: function () {
-		return (
-			<FlyoutMenu className="origins">
-				<FlyoutToggle className="origins-toggle">{this.props.selectedOrigin.broadcastUrl}</FlyoutToggle>
-				{this.props.originServers.map(function (o) {
-					var id = o.region + o.broadcastUrl;
-					return (
-						<div className="origin" key={id} itemKey={id} onClick={this.props.changeOrigin.bind(this, o)}>
-							{o.region}
-						</div>
-					);
-				}.bind(this))}
-			</FlyoutMenu>
-		);
-	}
-});
+  displayName: 'OriginMenu',
+  propType: {
+    originServers: React.PropTypes.array.isRequired,
+    selectedOrigin: React.PropTypes.object.isRequired,
+    changeOrigin: React.PropTypes.func.isRequired
+  },
+  render: function () {
+    return (
+      <Flyout menu className="origins">
+        <FlyoutToggle className="origins-toggle">{this.props.selectedOrigin.broadcastUrl}</FlyoutToggle>
+        {this.props.originServers.map(function (o) {
+          var id = o.region + o.broadcastUrl
+          return <div className="origin" key={id} itemKey={id} onClick={this.props.changeOrigin.bind(this, o)}>{o.region}</div>
+        }.bind(this))}
+      </FlyoutMenu>
+    )
+  }
+})
 ```
+
+### Options/Props
+
+```javascript
+{
+  closeOnWindowBlur: propTypes.bool, // Close flyout on window blur event, default: false
+  closeOnExternalClick: propTypes.bool, // Close flyout when a user clicks somewhere else on the page, default: false
+  closeOnEscape: propTypes.bool, // close flyout on escape key, default: true
+  initialOpen: propTypes.bool, // The inital open state, default: false
+  renderWhenClosed: propTypes.bool, // Render the flyout and use css to hide it, default: false
+  className: propTypes.string,  // Class name override, default: 'flyout'
+  children: propTypes.node, // Nest children to display in the flyout
+  element: propTypes.string, // The dom node type to use 'div'
+  menu: propTypes.bool // Render as a menu, wraps items in li tags and element defaults to 'ol'
+}
+```
+
+### Smart vs. Dumb Components
+
+The main export from this package is a "smart" or "managed" component.  It manages it's state internally, only loading initial state
+from outside.  If you need to directly manage the state yourself, you can use the "dumb" or "stateless" components.  They are exported
+by name as `Flyout`, `FlyoutMenu` and `FlyoutToggle`.  If you need to do more complicated things, like ensuring only one of two adjacent
+flyouts are open at a time, then you should use these and implement your own logic for state management.  Use the code found in `src/index.jsx`
+for reference on how to implement the options and state.
+
 
 ## Development
 
