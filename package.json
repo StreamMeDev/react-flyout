@@ -35,7 +35,7 @@
     "babel-preset-react": "^6.5.0",
     "mocha": "^3.4.2",
     "npm-check": "^5.4.4",
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.0.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "standard": "^10.0.2"
@@ -45,7 +45,7 @@
     "react-dom": ">15.0.0"
   },
   "dependencies": {
-    "prop-types": "^15.5.10",
+    "prop-types": "^15.0.0",
     "react-dom-factories": "^1.0.0"
   }
 }
