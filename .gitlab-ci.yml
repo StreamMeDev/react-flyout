@@ -1,0 +1,6 @@
+---
+
+test:
+  image: node:latest
+  script:
+   - npm it
